@@ -1,7 +1,7 @@
 # EXPERIMENT-05-SOIL-MOISTURE-SENSOR-INTERFACE-TO-IOT-DEVELOPMENT-BOARD
 
 ## Aim: 
- 
+
 To Interface a Analog Input  (soil moisture sensor) to ARM IOT development board and write a  program to obtain  the data on the com port 
 ## Components required: 
 
@@ -107,7 +107,7 @@ GND is the ground pin.
 
 
 ## STM 32 CUBE PROGRAM :
-```
+```c
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -129,13 +129,10 @@ GND is the ground pin.
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stdio.h"
-#if defined (__GNUC__)
+#if defined(__GNUC__)
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #endif
-uint16_t readValue;
-
-
-/* Private includes ----------------------------------------------------------*/
+uint16_t readValue;/* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -216,24 +213,23 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
-	      HAL_ADC_Start(&hadc);
-	  	  HAL_ADC_PollForConversion(&hadc,HAL_MAX_DELAY);
-	  	  readValue=HAL_ADC_GetValue(&hadc);
-	  	  printf("Read value: %d\n",readValue);
-	  	  HAL_ADC_Stop(&hadc);
-	  	  uint32_t soilmoist=100 - (readValue/40.96);
-	  	  printf("soil Moisture: %ld %%\n",soilmoist);
-	  	  HAL_Delay(1000);
+   {
+ 	  HAL_ADC_Start(&hadc);
+ 	          HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY);
+ 	     readValue=HAL_ADC_GetValue(&hadc);
+ 	   printf("Read value : %d\n", readValue);
+ 	   HAL_ADC_Stop(&hadc);
+ 	   uint32_t soilmoist = 100 -(readValue/40.96);
+ 	    printf("Soil moisture : %ld %%\n",soilmoist);
+ 	    HAL_Delay(1000);
+   }
+}
+ PUTCHAR_PROTOTYPE
+ {
+ 	HAL_UART_Transmit(&huart2,(uint8_t*)&ch, 1, 0xFFFF);
+ 	return ch;
+ }
 
-  }
-  /* USER CODE END 3 */
-}
-PUTCHAR_PROTOTYPE
-{
-	HAL_UART_Transmit(&huart2,(uint8_t *)&ch, 1, 0xFFFF);
-	return ch;
-}
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -304,7 +300,7 @@ static void MX_ADC_Init(void)
   hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc.Init.LowPowerAutoWait = DISABLE;
   hadc.Init.LowPowerAutoPowerOff = DISABLE;
-  hadc.Init.ContinuousConvMode = ENABLE;
+  hadc.Init.ContinuousConvMode = DISABLE;
   hadc.Init.NbrOfConversion = 1;
   hadc.Init.DiscontinuousConvMode = DISABLE;
   hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
@@ -420,6 +416,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
 #ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
@@ -439,11 +436,12 @@ void assert_failed(uint8_t *file, uint32_t line)
 ```
 
 ## Output screen shots on serial monitor   :
+<img width="1055" height="668" alt="image" src="https://github.com/user-attachments/assets/18e01616-4237-469d-95be-6d7ec24ac191" />
+
+ <img width="960" height="1088" alt="image" src="https://github.com/user-attachments/assets/2d7523c9-e87d-410f-b4d0-38f7f7776626" />
+
+
  
-![iotexp-5img](https://github.com/user-attachments/assets/74a89864-69ad-4ff3-a18c-e8ce55d6b538)
-![iotkitimg(1)](https://github.com/user-attachments/assets/d2bd48b0-e290-431a-b7bb-6255da8bc749)
-
-
  
  
 ## Result :
